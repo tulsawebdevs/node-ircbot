@@ -19,6 +19,6 @@ exports.setup=function(table,irc,room){
 }
 
 function logging(from,message) {
-  var doc={from:from, year:moment().format('YY'), month:moment().format('MM'), day: moment().format('DD'), time:('hh:mm:ss a'), message: message}
+  var doc={from:from, year:moment().format('YY'), month:moment().format('MM'), day: moment().format('DD'), time:moment().format('hh:mm:ss a'), message: message}
   logs.insert(doc,function(err){});
 }
