@@ -3,7 +3,8 @@ var moment = require('moment');
 exports.setup=function(table,irc,room){
   irc.addListener('message'+room, function (from, message) {
       if(message.match(/^!hello$/)){
-        irc.say(room ,'こんにちは'+from+'お元気ですか。時間は'+moment().format('h:mm:ss a'));
+        var current = moment().subtract("hours",6);
+        irc.say(room ,'こんにちは'+from+'お元気ですか。時間は'+current.format('h:mm:ss a'));
       }
   });
   table.on('speak', function (data) {
