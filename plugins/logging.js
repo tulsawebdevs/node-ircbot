@@ -19,7 +19,7 @@ exports.setup=function(table,irc,room){
 }
 
 function logging(from,message,serv) {
-  var current = moment().subtract('hours',6);
+  var current = moment().subtract('hours',5);
   var doc={from:from, year:current.format('YY'), month:current.format('MM'), day: current.format('DD'), time:current.format('hh:mm:ss a'), message: message, service:serv}
   logs.insert(doc,function(err){});
 }
