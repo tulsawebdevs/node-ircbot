@@ -1,5 +1,5 @@
 //Hello ircbot plugin: Replys to !hello command with greeting and the time.
-//version: 1.0.0
+//version: 1.1.0
 //authon: Blixa Morgan <blixa@projectmakeit.com>
 /*
 This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
@@ -7,7 +7,9 @@ This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 U
 
 var moment = require('moment');
 
-exports.setup=function(table,irc,room){
+exports.setup=function(table,irc,extra){
+  var room = extra.room;
+  var botnick = extra.botnick;
   //IRC chat
   irc.addListener('message'+room, function (from, message) {
       //User said !hello, Say hi back. In japanese. ;)

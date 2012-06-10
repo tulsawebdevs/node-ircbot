@@ -9,7 +9,14 @@ Enviroment Variables
 AUTH: turntable auth variable
 USERID: turntable user id
 ROOMID: turntable room id
-PASS: database password
+NICK: Bot's nickname
+ROOM: IRC room
+DB: Mongo database name
+DBUSER: Mongo database username
+PASS: Mongo database password
+SERVER: IRC server address
+DBSERVER: Mongo server
+
 
 Plugins
 ===========
@@ -34,6 +41,12 @@ Logging
 Turntable
 
 First published version.
+
+1.1.0:
+
+Moved Database variables to Env.  Changed layout of plugins.  Plugins now receive a object containing all avalible elements (aka database, room, bot nickname, etc.)
+
+all plugins bumped to 1.1.0
 
 
 Licence

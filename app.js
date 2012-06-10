@@ -8,6 +8,7 @@ This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 U
 //Dependencies
 var Bot    = require('ttapi');
 var irc    = require('irc');
+var mongodb = require('mongodb');
 
 //Plugins
 var plugins = ['hello','logging','turntable','karma','botsnack'];
@@ -17,20 +18,35 @@ var plug = new Array();
 var AUTH   = process.env.AUTH;
 var USERID = process.env.USERID;
 var ROOMID = process.env.ROOMID;
-var NICK = "tulsabot";
-var ROOM = "#tulsawebdevs";
-var SERVER = 'irc.freenode.net'
+var NICK = process.env.NICK;
+var ROOM = "#"+process.env.ROOM;
+var SERVER = process.env.SERVER;
+var DBSERVER = process.env.DBSERVER;
+var DBPASS = process.env.PASS;
+var DBUSER = process.env.DBUSER;
+var DBNAME = process.env.DB;
 
+
+//Server Settings
+var server = new mongodb.Server(DBSERVER,31617, {});
+var db = new mongodb.Db(DBNAME, server, {})
+
+var includer = {room: ROOM, botnick: NICK, db:db}
 //Connect to turntable and IRC
 var table = new Bot(AUTH, USERID, ROOMID);
 var irc = new irc.Client(SERVER, NICK, {
     channels: [ROOM]
 });
 
+db.open(function(err,res){  
+  db.authenticate(DBUSER,DBPASS,function(err,res){
+  });
+});
+
 //import plugins
 for(x=0; x<plugins.length;x++){
   plug[x] = require('./plugins/'+plugins[x]+'.js');
-  plug[x].setup(table,irc,ROOM);
+  plug[x].setup(table,irc,includer);
 }
 
 //HTTP server.

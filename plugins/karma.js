@@ -1,25 +1,15 @@
 //Karma ircbot plugin: Allows users to give and take awsome points.
-//version: 1.0.0
+//version: 1.1.0
 //authon: Blixa Morgan <blixa@projectmakeit.com>
 /*
 This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 */
 
-//Depenencies
-var mongodb = require('mongodb');
-
-//Server Settings
-var server = new mongodb.Server('ds031617.mongolab.com',31617, {});
-var db = new mongodb.Db('tulsabot', server, {})
-
-exports.setup=function(table,irc,room){
-  //Authenticate to server
-  db.open(function(err,res){  
-    db.authenticate('tulsabot',process.env.PASS,function(err,res){
-    });
-  });
+exports.setup=function(table,irc,extra){
   //set collection
-  var karma = db.collection('karma');
+  var karma = extra.db.collection('karma');
+  var room = extra.room;
+  var botnick = extra.botnick;
   //IRC messages
   irc.addListener('message'+room, function (from, message) {
     //Give karma
@@ -31,7 +21,7 @@ exports.setup=function(table,irc,room){
         return;
       }
       //User is trying to give Tulsabot karma, This is a bad idea.
-      if(giveto=='tulsabot'){
+      if(giveto==botnick){
         irc.say(room, "Are you trying to rip a hole in the space-time continuum?");
         return;
       }
@@ -59,7 +49,7 @@ exports.setup=function(table,irc,room){
         return;
       }
       //User is trying to take karma from tulsabot, this won't work.  dont tell him though.
-      if(giveto=='tulsabot'){
+      if(giveto==botnick){
         irc.say(room, "I wouldn't do that if I were you...");
         return;
       }
@@ -86,8 +76,10 @@ exports.setup=function(table,irc,room){
       }
       //Get all karma
       karma.find().toArray(function (err,karmas){
-        for(var x=0;x<karmas.length; x++){
-          show_karma(karmas[x].nick);
+        if(karmas){
+          for(var x=0;x<karmas.length; x++){
+            show_karma(karmas[x].nick);
+          }
         }
       });
     }
