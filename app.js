@@ -1,13 +1,13 @@
 var Bot    = require('ttapi');
 var irc    = require('irc');
 
-var plugins = ['hello','logging','turntable'];
+var plugins = ['hello','logging','turntable','karma','botsnack'];
 var plug = new Array();
 
 var AUTH   = process.env.AUTH;
 var USERID = process.env.USERID;
 var ROOMID = process.env.ROOMID;
-var NICK = "tulsabot_test";
+var NICK = "tulsabot";
 var ROOM = "#tulsawebdevs";
 
 var table = new Bot(AUTH, USERID, ROOMID);
