@@ -1,5 +1,5 @@
 {
-  "version": "1.0.3-0",
+  "version": "1.1.0-3",
   "private": true,
   "dependencies": {
     "ttapi": ">=1.4.2",
