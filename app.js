@@ -11,7 +11,7 @@ var irc    = require('irc');
 var mongodb = require('mongodb');
 
 //Plugins
-var plugins = ['hello','logging','turntable','karma','botsnack'];
+var plugins = ['hello','logging','turntable','karma','botsnack','music'];
 var plug = new Array();
 
 //Enviroment variables
