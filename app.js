@@ -8,10 +8,10 @@ This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 U
 //Dependencies
 var Bot    = require('ttapi');
 var irc    = require('irc');
-var mongodb = require('mongodb');
-
+var mongodb = require('mongodb')
+  , repl = require('repl');
 //Plugins
-var plugins = ['hello','logging','turntable','karma','botsnack','music'];
+var plugins = ['hello','logging','turntable','karma','botsnack','music', 'web'];
 var plug = new Array();
 
 //Enviroment variables
@@ -37,7 +37,8 @@ var table = new Bot(AUTH, USERID, ROOMID);
 var irc = new irc.Client(SERVER, NICK, {
     channels: [ROOM]
 });
-
+//table.debug = true;
+repl.start('> ').context.table = table;
 db.open(function(err,res){  
   db.authenticate(DBUSER,DBPASS,function(err,res){
   });
@@ -48,30 +49,3 @@ for(x=0; x<plugins.length;x++){
   plug[x] = require('./plugins/'+plugins[x]+'.js');
   plug[x].setup(table,irc,includer);
 }
-
-//HTTP server.
-table.listen(8080, '0.0.0.0');
-
-var myScriptVersion = '1.0.0';
-
-table.on('httpRequest', function (req, res) {
-   var method = req.method;
-   var url    = req.url;
-   switch (url) {
-      //give current verison
-      case '/version/':
-         if (method == 'GET') {
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end('{"version":"'+myScriptVersion+'"}');
-         } else {
-            res.writeHead(500);
-            res.end();
-         }
-         break;
-      default:
-         res.writeHead(200);
-         res.end('For api access to TulsaBot');
-         break;
-   }
-});
-

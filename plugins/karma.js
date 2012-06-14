@@ -25,7 +25,15 @@ exports.setup=function(table,irc,extra){
         irc.say(room, "Are you trying to rip a hole in the space-time continuum?");
         return;
       }
+      if(giveto.match(/!/)){
+        irc.say(room, from+", What do you think your doing?");
+        return;
+      }
       karma.findOne({"nick":giveto},function (err,data){
+        if(isNaN(Number(data.count))){
+          irc.say(room, giveto+" Can not receive karma. reason: "+data.count);
+          return;
+        }
         if(!data){
           var count = 1;
         }else{
@@ -53,11 +61,20 @@ exports.setup=function(table,irc,extra){
         irc.say(room, "I wouldn't do that if I were you...");
         return;
       }
+      if(giveto.match(/!/)){
+        irc.say(room, from+", What do you think your doing?");
+        return;
+      }
       karma.findOne({"nick":giveto},function (err,data){
-        if(!data){
-          var data = {"count":"0"};
+        if(isNaN(Number(data.count))){
+          irc.say(room, giveto+" Can not receive karma. reason: "+data.count);
+          return;
         }
-        var count = data.count-1;
+        if(!data){
+          var data = {"count":"-1"};
+        }else{
+          var count = data.count + 1;
+        }
         //karma is zero, remove nick from DB to save clutter.
         if(count==0){
           karma.remove({"nick":giveto});
