@@ -28,6 +28,7 @@ karma: Allows users to give and take awsome points with !<nick>++ and !<nick>--
 Logging: Logs all irc and turntable activity on mongoDB. Viewable with tulsalogs at tulsalogs.jit.su/logs/service/year/month/day
 turntable: impliments turntable commands in both irc and turntable chats.  !dj puts tulsabot on deck if there is an open space. !listen pull him off. !skip causes him to skip a song. bop anywhere in a chat causes him to awsome song. 
   following commands only work in pm on turntable.  !add?<query> adds first song in query to his list. !<comp>top changes laptop to either chrome, linux, or pc. !android changes to android phone. !iphone changes to iphone.
+Web: adds web api's with jsonp. Playlist editing is currently the only supported api.
 
 Change log
 ============
@@ -48,6 +49,28 @@ Moved Database variables to Env.  Changed layout of plugins.  Plugins now receiv
 
 all plugins bumped to 1.1.0
 
+1.2.0:
+Plugins added:
+Web
+
+Plugins changed:
+Karma
+Music
+
+Changed music plugin to notice hourly with only popular songs.
+Fixed karma bug that allowed looping of karma commands when another karma bot is present.
+Fixed turntable bug that prevented adding of songs with !add?
+
+TODO
+=============
+
+Add github webhook.
+
+Known Bugs
+=============
+
+Music still replies hourly whether or not any songs have been played
+Playlist site does not update when playlist changes. Causes it to send invalid data.
 
 Licence
 =============
