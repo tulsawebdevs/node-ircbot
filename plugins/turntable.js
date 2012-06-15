@@ -80,6 +80,12 @@ exports.setup = function (table,irc,extra){
           table.searchSong(song[1],add);
         }
      }
+     if (text.match(/^!switch/)){
+       var position = text.split("?");
+       if(position[1]!=""){
+         table.playlistReorder(parseInt(position[1]),0);
+       }
+     }
   });
   irc.addListener('message'+room, function (from, message) {
        // Bop
@@ -107,8 +113,8 @@ exports.setup = function (table,irc,extra){
        irc.say(room ,'DJ Wooooo refuses to come.');
     }
   });
-}
+  
 function add(songid){
   table.playlistAdd(songid.docs[0]._id);
-  console.log(songid.docs[0]._id);
+}
 }
