@@ -15,7 +15,7 @@ exports.setup=function(table,irc,extra){
    //list pop songs every hour.
    function song_callback(){
        store.find().toArray(function(err,data){
-         if(data!=null){
+         if(data.length){
            irc.say(room, "Your http://turntable.fm/tulsawebdevs recap");
            for(x=0;x<data.length;x++){
              irc.say(room,data[x].song+' by '+data[x].artist);

@@ -80,12 +80,6 @@ exports.setup = function (table,irc,extra){
           table.searchSong(song[1],add);
         }
      }
-     if (text.match(/^!switch/)){
-       var position = text.split("?");
-       if(position[1]!=""){
-         table.playlistReorder(parseInt(position[1]),0);
-       }
-     }
   });
   irc.addListener('message'+room, function (from, message) {
        // Bop
@@ -94,6 +88,9 @@ exports.setup = function (table,irc,extra){
        table.vote('up');
        irc.say(room ,'The great DJ accepts!');
     }
+    if (message.match(/^!skip$/)) {
+        table.skip();
+     }
     // DeBop: interfears with karma plugin. not used
     /*if (message.match(/^!karma--$/)){
        console.log('downvote from '+from+'.');

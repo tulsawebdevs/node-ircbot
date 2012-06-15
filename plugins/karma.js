@@ -30,13 +30,14 @@ exports.setup=function(table,irc,extra){
         return;
       }
       karma.findOne({"nick":giveto},function (err,data){
-        if(isNaN(Number(data.count))){
-          irc.say(room, giveto+" Can not receive karma. reason: "+data.count);
-          return;
-        }
+        
         if(!data){
           var count = 1;
         }else{
+	if(isNaN(Number(data.count))){
+          irc.say(room, giveto+" Can not receive karma. reason: "+data.count);
+          return;
+        }
           var count = data.count+1;
         }
         //karma is zero, remove nick from DB to save clutter.
@@ -66,14 +67,14 @@ exports.setup=function(table,irc,extra){
         return;
       }
       karma.findOne({"nick":giveto},function (err,data){
-        if(isNaN(Number(data.count))){
-          irc.say(room, giveto+" Can not receive karma. reason: "+data.count);
-          return;
-        }
         if(!data){
           var data = {"count":"-1"};
         }else{
-          var count = data.count + 1;
+	if(isNaN(Number(data.count))){
+          irc.say(room, giveto+" Can not receive karma. reason: "+data.count);
+          return;
+        }
+          var count = data.count - 1;
         }
         //karma is zero, remove nick from DB to save clutter.
         if(count==0){
