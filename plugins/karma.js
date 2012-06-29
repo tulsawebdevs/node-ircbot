@@ -96,21 +96,21 @@ exports.setup=function(table,irc,extra){
       karma.find().toArray(function (err,karmas){
         if(karmas){
           for(var x=0;x<karmas.length; x++){
-            show_karma(karmas[x].nick);
+            show_karma(karmas[x].nick, from);
           }
         }
       });
     }
   });
   //Return karma for nick.
-  function show_karma(nick){
+  function show_karma(nick, from){
     karma.findOne({"nick":nick}, function(err, data){
       if(data){
       var count = data.count;
-      irc.say(room, nick + ' has ' + count + ' awesome points.');
+      irc.say(from, nick + ' has ' + count + ' awesome points.');
       return;
       }
-      irc.say(room, nick + ' has no awsome points. How sad.');
+      irc.say(from, nick + ' has no awsome points. How sad.');
     });
   }
 }
