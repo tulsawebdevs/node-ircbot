@@ -68,7 +68,7 @@ exports.setup=function(table,irc,extra){
       }
       karma.findOne({"nick":giveto},function (err,data){
         if(!data){
-          var data = {"count":"-1"};
+          var count = -1;
         }else{
 	if(isNaN(Number(data.count))){
           irc.say(room, giveto+" Can not receive karma. reason: "+data.count);
@@ -76,7 +76,7 @@ exports.setup=function(table,irc,extra){
         }
           var count = data.count - 1;
         }
-        //karma is zero, remove nick from DB to save clutter.
+        //karma is zero, remove nick from DB to clear clutter.
         if(count==0){
           karma.remove({"nick":giveto});
           irc.say(room, giveto+" has no more karma.");
