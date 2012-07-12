@@ -23,11 +23,11 @@ Plugins
 
 Hello: Replys to !hello command with greeting and the time.
 Botsnack: Responds to !botsnack with a thank you.
-karma: Allows users to give and take awsome points with !<nick>++ and !<nick>--
-  will list all karma with !karma? and individual karma with !karma?<nick>
+karma: Allows users to give and take awsome points with !(nick)++ and !(nick)--
+  will list all karma with !karma? and individual karma with !karma?(nick)
 Logging: Logs all irc and turntable activity on mongoDB. Viewable with tulsalogs at tulsalogs.jit.su/logs/service/year/month/day
 turntable: impliments turntable commands in both irc and turntable chats.  !dj puts tulsabot on deck if there is an open space. !listen pull him off. !skip causes him to skip a song. bop anywhere in a chat causes him to awsome song. 
-  following commands only work in pm on turntable.  !add?<query> adds first song in query to his list. !<comp>top changes laptop to either chrome, linux, or pc. !android changes to android phone. !iphone changes to iphone.
+  following commands only work in pm on turntable.  !add?(query) adds first song in query to his list. !(comp)top changes laptop to either chrome, linux, or pc. !android changes to android phone. !iphone changes to iphone.
 Web: adds web api's with jsonp. Playlist editing is currently the only supported api.
 
 Change log

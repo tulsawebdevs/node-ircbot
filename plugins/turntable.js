@@ -7,8 +7,12 @@ This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 U
 
 exports.setup = function (table,irc,extra){
   var room = extra.room; 
+  var lock;
   //Turntable chat
   table.on('speak', function (data) {
+     if(lock){
+       return false;
+     }
      // Get the data
      var name = data.name;
      var text = data.text;
@@ -43,8 +47,12 @@ exports.setup = function (table,irc,extra){
      var name = data.name;
      var text = data.text;
      //Skip the current song
-     if (text.match(/^!skip$/)) {
-        table.skip();
+     if (text.match(/^!lock$/)) {
+        if(lock){
+          lock=false;
+        }else{
+          lock=true;
+        }
      }
      //Change to Chrome laptop
      if (text.match(/^!chrometop$/)){
@@ -79,8 +87,11 @@ exports.setup = function (table,irc,extra){
      }
   });
   irc.addListener('message'+room, function (from, message) {
+    if(lock){
+       return false;
+     }
        // Bop
-    if (message.match(/bop/)){
+    if (message.match(/vote/)){
        console.log('upvote from '+from+'.');
        table.vote('up');
        irc.say(room ,'The great DJ accepts!');

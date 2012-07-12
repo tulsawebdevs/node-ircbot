@@ -10,6 +10,13 @@ exports.setup=function(table,irc,extra){
   var karma = extra.db.collection('karma');
   var room = extra.room;
   var botnick = extra.botnick;
+  var commands = extra.commands;
+  //set help commands
+  extra.commands["!<nick>++"]="Adds 1 karma to <nick>";
+  extra.commands["!<nick>--"]="removes 1 karma to <nick>";
+  extra.commands["!karma?"]="returns all karma's via pm";
+  extra.commands["!karma?<nick>"]="returns the karma of <nick>";
+  extra.plugins["Karma"]="allows giving and receiving of karma";
   //IRC messages
   irc.addListener('message'+room, function (from, message) {
     //Give karma
@@ -46,7 +53,7 @@ exports.setup=function(table,irc,extra){
           irc.say(room, giveto+" has no more karma.");
           return;
         }
-        karma.update({"nick":giveto}, {"nick":giveto, "count":count}, {upsert:true},function(err,data){show_karma(giveto);});
+        karma.update({"nick":giveto}, {"nick":giveto, "count":count}, {upsert:true},function(err,data){answer_karma(giveto);});
       });
     }
     //Take karma
@@ -82,7 +89,7 @@ exports.setup=function(table,irc,extra){
           irc.say(room, giveto+" has no more karma.");
           return;
         }
-        karma.update({"nick":giveto}, {"nick":giveto, "count":count}, {upsert:true},function(err,data){show_karma(giveto);});
+        karma.update({"nick":giveto}, {"nick":giveto, "count":count}, {upsert:true},function(err,data){answer_karma(giveto);});
       });
     }
     //User requested karma lists
@@ -111,6 +118,16 @@ exports.setup=function(table,irc,extra){
       return;
       }
       irc.say(from, nick + ' has no awsome points. How sad.');
+    });
+  }
+  function answer_karma(nick, from){
+    karma.findOne({"nick":nick}, function(err, data){
+      if(data){
+      var count = data.count;
+      irc.say(room, nick + ' has ' + count + ' awesome points.');
+      return;
+      }
+      irc.say(room, nick + ' has no awsome points. How sad.');
     });
   }
 }
