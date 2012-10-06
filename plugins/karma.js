@@ -96,7 +96,7 @@ exports.setup=function(table,irc,extra){
     if(message.match(/^!karma\?(\s+)?(\S+)?/)){
       //Get individual nick
       if(message.match(/^!karma\?(\s+)?(\S+)?/)[2]){
-        show_karma(message.match(/^!karma\?(\s+)?(\S+)?/)[2], from);
+        answer_karma(message.match(/^!karma\?(\s+)?(\S+)?/)[2], from);
       return;
       }
       //Get all karma
