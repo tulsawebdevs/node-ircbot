@@ -10,6 +10,9 @@ var moment = require('moment');
 exports.setup=function(table,irc,extra){
   var room = extra.room;
   var botnick = extra.botnick;
+  //add commands
+  extra.plugins["Hello"]="Says Hello";
+  extra.commands["!hello"]="Tulsabot says hi back.  In Japanese.";
   //IRC chat
   irc.addListener('message'+room, function (from, message) {
       //User said !hello, Say hi back. In japanese. ;)

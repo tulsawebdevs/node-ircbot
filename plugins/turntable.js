@@ -7,23 +7,21 @@ This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 U
 
 exports.setup = function (table,irc,extra){
   var room = extra.room; 
+  var lock;
   //Turntable chat
   table.on('speak', function (data) {
+     if(lock){
+       return false;
+     }
      // Get the data
      var name = data.name;
      var text = data.text;
      // if bop is in the message, upvote current song
-     if (text.match(/bop/)){
+     if (text.match(/vote/)){
         console.log('upvote from '+name+'.');
         table.vote('up');
         table.speak('The great DJ accepts!');
      }
-     // 
-     /*if (text.match(/^!karma--$/)){
-        console.log('downvote from '+name+'.');
-        table.vote('down');
-        table.speak('Someone disapproves!');
-     }*/
      // start DJing
      if (text.match(/^!dj$/)) {
         console.log('djing');
@@ -33,6 +31,9 @@ exports.setup = function (table,irc,extra){
      if (text.match(/^!listen$/)) {
         console.log('not djing');
         table.remDj();
+     }
+     if (text.match(/^!skip$/)) {
+        table.skip();
      }
      // Summon DJ Wooooo
      if (text.match(/^Woooo/)) {
@@ -46,8 +47,12 @@ exports.setup = function (table,irc,extra){
      var name = data.name;
      var text = data.text;
      //Skip the current song
-     if (text.match(/^!skip$/)) {
-        table.skip();
+     if (text.match(/^!lock$/)) {
+        if(lock){
+          lock=false;
+        }else{
+          lock=true;
+        }
      }
      //Change to Chrome laptop
      if (text.match(/^!chrometop$/)){
@@ -80,19 +85,25 @@ exports.setup = function (table,irc,extra){
           table.searchSong(song[1],add);
         }
      }
-     if (text.match(/^!switch/)){
-       var position = text.split("?");
-       if(position[1]!=""){
-         table.playlistReorder(parseInt(position[1]),0);
-       }
-     }
   });
   irc.addListener('message'+room, function (from, message) {
+    if(lock){
+       return false;
+     }
        // Bop
-    if (message.match(/bop/)){
+    if (message.match(/vote/)){
        console.log('upvote from '+from+'.');
        table.vote('up');
        irc.say(room ,'The great DJ accepts!');
+    }
+    if (message.match(/^!skip$/)) {
+        table.skip();
+     }
+    if (message.match(/^!whereru$/)){
+        table.roomRegister(process.env.ROOMID);
+    }
+    if(message.match(/^!goodbye$/)){
+        table.roomDeregister();
     }
     // DeBop: interfears with karma plugin. not used
     /*if (message.match(/^!karma--$/)){
@@ -110,7 +121,7 @@ exports.setup = function (table,irc,extra){
     }
     // Summon DJ Wooooo
     if (message.match(/^Woooo/)) {
-       irc.say(room ,'DJ Wooooo refuses to come.');
+       irc.say(room ,'DJ Wooooo refuses to come to an inferior irc channel.');
     }
   });
   

@@ -9,7 +9,7 @@ exports.setup=function(table,irc,extra){
   var room = extra.room;
   irc.addListener('message'+room, function (from, message) {
       if(message.match(/!botsnack/)){
-        irc.say(room ,'yum! thank you'+from);
+        irc.say(room ,'yum! thank you '+from);
       }
   });
   table.on('speak', function (data) {

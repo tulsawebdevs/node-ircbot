@@ -11,7 +11,7 @@ var irc    = require('irc');
 var mongodb = require('mongodb')
   , repl = require('repl');
 //Plugins
-var plugins = ['hello','logging','turntable','karma','botsnack','music', 'web'];
+var plugins = ['hello','logging','turntable','karma','botsnack','music', 'web', 'help'];
 var plug = new Array();
 
 //Enviroment variables
@@ -31,7 +31,7 @@ var DBNAME = process.env.DB;
 var server = new mongodb.Server(DBSERVER,31617, {});
 var db = new mongodb.Db(DBNAME, server, {})
 
-var includer = {room: ROOM, botnick: NICK, db:db}
+var includer = {room: ROOM, botnick: NICK, db:db, commands:{}, plugins:{}}
 //Connect to turntable and IRC
 var table = new Bot(AUTH, USERID, ROOMID);
 var irc = new irc.Client(SERVER, NICK, {
