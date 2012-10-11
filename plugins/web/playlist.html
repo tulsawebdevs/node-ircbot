@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>Tulsabot Playlist Control</title>
+		<link type="text/css" href="css/mint-choc/jquery-ui-1.8.21.custom.css" rel="stylesheet" />
+		<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.8.21.custom.min.js"></script>
+                <script src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript">
+		   
+                    var socket = io.connect('');
+		    var idstart;
+		    var idstop;
+		    var searchResultArray = [];
+		    var playlist ;
+		    var searchResults;
+                    $(function(){
+		    playlist = document.getElementById('playlist');
+		    searchResults = document.getElementById('searchResults');
+                    socket.on('playlist', listPlaylist);
+		    socket.on('search results',function (data) {
+		      $.each(data.docs, function(i,item){
+			var unit = document.createElement('li');
+			var add = document.createElement('a');
+			add.setAttribute("onclick", "adder($(this).parent().index());")
+			unit.setAttribute("class","ui-state-default");
+			unit.innerText = item.metadata.song+" - "+item.metadata.artist;
+			unit.appendChild(add)
+			searchResults.appendChild(unit);
+		     });
+		     searchResultArray=data.docs;
+		     $("#searchResults li a").button({icons: { primary: "ui-icon-plus"}, text: false});
+		    });
+		    $("#playlist").sortable({start : function(element,ui){idstart=ui.item.index()},stop: function(element,ui){idstop=ui.item.index(); change_songs()}});
+		    });
+		function adder(index){
+		      var id = searchResultArray[index]._id;
+		      //$.getJSON('http://tulsabot.jit.su/playlist/'+id+'/add?callback=?',function(data){});
+		      socket.emit('add song',id);
+		      //location.reload();
+		    }
+		function listPlaylist(data){
+			playlist.innerHTML="";
+			$.each(data.list, function(i,item){
+			var unit = document.createElement('li');
+			var add = document.createElement('a');
+			add.setAttribute("onclick", "deleter($(this).parent().index());")
+			unit.setAttribute("class","ui-state-default");
+			unit.innerText = item.metadata.song+" - "+item.metadata.artist;
+			unit.appendChild(add)
+			playlist.appendChild(unit);
+		     });
+			$("#playlist li a").button({icons: { primary: "ui-icon-minus"}, text: false})
+		     }
+		    function deleter(index){
+		      //$.getJSON("http://tulsabot.jit.su/playlist/"+index+"/delete?callback=?",function(data){});
+			socket.emit('remove song',index);
+		    }
+		    function change_songs(){
+		      //$.getJSON("http://tulsabot.jit.su/playlist/"+idstart+"/"+idstop+"/change?callback=?",function(data){});
+			var data = {start:idstart,stop:idstop};
+			socket.emit('change song',data);
+		    }
+		    
+		    function search(){
+		    searchResults.innerHTML="";
+		    var query= document.getElementById('query').value;
+		    //$.getJSON('http://tulsabot.jit.su/playlist/'+query+'/search?callback=?',function(data){
+			socket.emit('search song',query);
+		    }
+		
+		
+		
+        
+		</script>
+		<style type="text/css">
+			/*demo page css*/
+			body{ font: 62.5% "Trebuchet MS", sans-serif; margin: 50px;}
+		</style>
+	</head>
+	<body>
+	<ul class='playlist' id='playlist' style='width: 40%;'>
+        </ul>
+        <input type='text', id='query'></input>
+        <button class="ui-button" onclick="search()">start search</button>
+        <ul class='searchResults' id='searchResults'>
+        </ul>
+	</body>
+</html>
+
+

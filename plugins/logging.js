@@ -11,8 +11,8 @@ var moment = require('moment');
 exports.setup=function(table,irc,extra){
   var room = extra.room;
   var botname = extra.botname;
-
-  //Authenticate to MongoDB
+  //add commands
+  extra.plugins["Logging"]="records logs from turntable and irc";
   var logs = extra.db.collection('logs');
   //Record messages from irc
   irc.addListener('message'+room, function(from,message){

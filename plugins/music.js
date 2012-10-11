@@ -7,23 +7,32 @@ This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 U
 exports.setup=function(table,irc,extra){
    //set variable global to allow later access.
    var store = extra.db.collection('songs');
-   var song;
-   var artist;
+   //var song;
+   //var artist;
    var room = extra.room;
    var count = 0;
-   setTimeout(song_callback, 1000);
+   //add commands
+   var song = data.room.metadata.current_song.metadata.song;
+   var artist = data.room.metadata.current_song.metadata.song;
+   extra.plugins["Music"]="Manages Turntable music";
+   extra.commands["!recent"]="list the five most recent songs.";
+   extra.commands["!song"]="list the currently playing song.";
    //list pop songs every hour.
    function song_callback(){
        store.find().toArray(function(err,data){
-         if(data!=null){
+         if(data!==null){
            irc.say(room, "Your http://turntable.fm/tulsawebdevs recap");
-           for(x=0;x<data.length;x++){
+           var y = 0;
+           for(var x=data.length-1;x>=0;x--){
+             y++
              irc.say(room,data[x].song+' by '+data[x].artist);
+             if(y>4){
+               break;
+             }
            }
            store.remove();
          }
        });
-     setTimeout(song_callback, 60*60*1000);
    };
    table.on('endsong', function(data){
      song = data.room.metadata.current_song.metadata.song;
@@ -39,6 +48,7 @@ exports.setup=function(table,irc,extra){
    table.on('newsong', function(data){
      song = data.room.metadata.current_song.metadata.song;
      artist = data.room.metadata.current_song.metadata.artist;
+     //console.log(data.room.metadata);
    });
    table.on('nosong', function(err,data){
      song = "No song playing.";
@@ -50,6 +60,9 @@ exports.setup=function(table,irc,extra){
       //User requested current song
       if(message.match(/^!song$/)){
         irc.say(room,"Current song: "+song+" by "+artist);
+      }
+      if(message.match(/^!recent$/)){
+        song_callback();
       }
     });
 };
