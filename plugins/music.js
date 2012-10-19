@@ -7,13 +7,13 @@ This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 U
 exports.setup=function(table,irc,extra){
    //set variable global to allow later access.
    var store = extra.db.collection('songs');
-   //var song;
-   //var artist;
+   var song;
+   var artist;
    var room = extra.room;
    var count = 0;
    //add commands
-   var song = data.room.metadata.current_song.metadata.song;
-   var artist = data.room.metadata.current_song.metadata.song;
+   //var song = data.room.metadata.current_song.metadata.song;
+   //var artist = data.room.metadata.current_song.metadata.song;
    extra.plugins["Music"]="Manages Turntable music";
    extra.commands["!recent"]="list the five most recent songs.";
    extra.commands["!song"]="list the currently playing song.";
