@@ -50,7 +50,7 @@ exports.setup=function(table,irc,extra){
     table.playlistAdd(id);
     res.json("{done:'true'}");
   });
-  server.listen(env.PORT);
+  server.listen(process.env.PORT);
   io.sockets.on('connection', function (socket) {
     table.playlistAll(function(data){
       socket.emit('playlist', data);
