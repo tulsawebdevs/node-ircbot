@@ -46,7 +46,7 @@ db.open(function(err,res){
 irc.addListener('error', function(message) {
         console.log('error: ', message);
 });
-irc.say('nickserv','identify minecraft');
+//irc.say('nickserv','identify minecraft');
 
 //import plugins
 for(x=0; x<plugins.length;x++){
