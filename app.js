@@ -44,7 +44,7 @@ db.open(function(err,res){
   });
 });
 
-irc.say('nickserv','identify minecraft'
+irc.say('nickserv','identify minecraft');
 
 //import plugins
 for(x=0; x<plugins.length;x++){
