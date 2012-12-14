@@ -43,7 +43,7 @@ db.open(function(err,res){
   db.authenticate(DBUSER,DBPASS,function(err,res){
   });
 });
-client.addListener('error', function(message) {
+irc.addListener('error', function(message) {
         console.log('error: ', message);
 });
 irc.say('nickserv','identify minecraft');
