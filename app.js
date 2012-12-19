@@ -25,7 +25,7 @@ var DBSERVER = process.env.DBSERVER;
 var DBPASS = process.env.PASS;
 var DBUSER = process.env.DBUSER;
 var DBNAME = process.env.DB;
-
+var IRCPASS = process.env.IRC;
 
 //Server Settings
 var server = new mongodb.Server(DBSERVER,31617, {});
@@ -43,6 +43,8 @@ db.open(function(err,res){
   db.authenticate(DBUSER,DBPASS,function(err,res){
   });
 });
+
+irc.say('nickserv',IRCPASS);
 
 //import plugins
 for(x=0; x<plugins.length;x++){
