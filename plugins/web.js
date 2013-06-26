@@ -1,6 +1,6 @@
 //Web ircbot plugin: adds web api's.
 //version: 1.0.0
-//authon: Blixa Morgan <blixa@projectmakeit.com>
+//author: Blixa Morgan <blixa@projectmakeit.com>
 /*
 This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/ or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.
 */
@@ -50,7 +50,7 @@ exports.setup=function(table,irc,extra){
     table.playlistAdd(id);
     res.json("{done:'true'}");
   });
-  server.listen(8081);
+  server.listen(process.env.PORT);
   io.sockets.on('connection', function (socket) {
     table.playlistAll(function(data){
       socket.emit('playlist', data);

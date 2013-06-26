@@ -91,7 +91,7 @@ exports.setup = function (table,irc,extra){
        return false;
      }
        // Bop
-    if (message.match(/vote/)){
+    if (message.match(/vote/i)){
        console.log('upvote from '+from+'.');
        table.vote('up');
        irc.say(room ,'The great DJ accepts!');
